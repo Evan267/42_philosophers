@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:35:35 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/22 22:23:01 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/26 14:28:05 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static t_philo *create_one_philo(int argc, char **argv, t_fork **forks, unsigned
 	if (!philo)
 		return (NULL);
 	philo->id = id;
-	philo->time_to_die = (unsigned int)ft_atoi(argv[2]);
-	philo->time_to_eat = (unsigned int)ft_atoi(argv[3]);
-	philo->time_to_sleep = (unsigned int)ft_atoi(argv[4]);
+	philo->time_to_die = (int)ft_atoi(argv[2]);
+	philo->time_to_eat = (int)ft_atoi(argv[3]);
+	philo->time_to_sleep = (int)ft_atoi(argv[4]);
 	if (argc == 6)
 		philo->number_of_times_must_eat = ft_atoi(argv[5]);
 	else
@@ -42,7 +42,7 @@ static t_philo *create_one_philo(int argc, char **argv, t_fork **forks, unsigned
 	if (gettimeofday(&time_value, NULL) == -1)
 		return (free(philo), NULL);
 	philo->start_eating = time_value.tv_usec;
-	philo->len = ft_atoi(argv[2]);
+	philo->len = ft_atoi(argv[1]);
 	philo->forks = forks;
 	return (philo);
 }

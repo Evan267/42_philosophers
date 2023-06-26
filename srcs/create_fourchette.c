@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:41:50 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/22 20:21:08 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/26 14:14:07 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_fork	**create_all_forks(int len)
 
 	i = 0;
 	forks = malloc(sizeof(t_fork *) * (len + 1));
+	if (!forks)
+		return (NULL);
 	while (i < len)
 	{
 		forks[i] = create_one_fork();
