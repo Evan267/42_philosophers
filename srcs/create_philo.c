@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:35:35 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/20 22:36:28 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/22 22:23:01 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	free_all_philos(t_philo **philos, int len)
 	int	i;
 
 	i = 0;
-	free_all_fourchettes(philos[0]->fourchettes, len);
+	free_all_forks(philos[0]->forks, len);
 	while (i < len)
 		free(philos[i++]);
 	free(philos);
 }
 
-static t_philo *create_one_philosopher(int argc, char **argv, t_fourchette **fourchettes, unsigned int id)
+static t_philo *create_one_philo(int argc, char **argv, t_fork **forks, unsigned int id)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 	struct timeval	time_value;
 	
 	philo = malloc(sizeof(t_philo));
@@ -42,29 +42,29 @@ static t_philo *create_one_philosopher(int argc, char **argv, t_fourchette **fou
 	if (gettimeofday(&time_value, NULL) == -1)
 		return (free(philo), NULL);
 	philo->start_eating = time_value.tv_usec;
-	philo->fourchettes = fourchettes;
+	philo->len = ft_atoi(argv[2]);
+	philo->forks = forks;
 	return (philo);
 }
 
-t_philo	**create_all_philosophers(int argc, char **argv)
+t_philo	**create_all_philos(int argc, char **argv)
 {
-	t_fourchette	**fourchettes;
-	t_philo		**philos;
-	int		nb_philos;
-	int		i;
+	t_fork	**forks;
+	t_philo	**philos;
+	int	nb_philos;
+	int	i;
 
 	i = 0;
 	nb_philos = ft_atoi(argv[1]);
-	fourchettes = create_all_fourchettes(nb_philos);;
-	if (!fourchettes)
+	forks = create_all_forks(nb_philos);;
+	if (!forks)
 		return (NULL);
 	philos = malloc(sizeof(t_philo *) * (nb_philos + 1));
 	if (!philos)
 		return (NULL);
 	while (i < nb_philos)
 	{
-		printf("philo %i\n", i);
-		philos[i] = create_one_philosopher(argc, argv, fourchettes, i + 1);
+		philos[i] = create_one_philo(argc, argv, forks, i + 1);
 		if (!(philos[i]))
 		{
 			while (i--)

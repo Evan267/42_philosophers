@@ -6,53 +6,52 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:41:50 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/20 22:37:18 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/22 20:21:08 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	free_all_fourchettes(t_fourchette **fourchettes, int len)
+void	free_all_forks(t_fork **forks, int len)
 {
 	int	i;
 
 	i = 0;
 	while (i < len)
-		free(fourchettes[i++]);
-	free(fourchettes);
+		free(forks[i++]);
+	free(forks);
 }
 
-static t_fourchette	*create_one_fourchette(void)
+static t_fork	*create_one_fork(void)
 {
-	t_fourchette	*fourchette;
+	t_fork	*one_fork;
 
-	fourchette = malloc(sizeof(t_fourchette));
-	if (!fourchette)
+	one_fork = malloc(sizeof(t_fork));
+	if (!one_fork)
 		return (NULL);
-	pthread_mutex_init(&fourchette->fourchette_mutex, NULL);
-	fourchette->fourchette = 1;
-	return (fourchette);
+	pthread_mutex_init(&one_fork->fork_mutex, NULL);
+	return (one_fork);
 }
 
-t_fourchette	**create_all_fourchettes(int len)
+t_fork	**create_all_forks(int len)
 {
 	int		i;
-	t_fourchette	**fourchettes;
+	t_fork	**forks;
 
 	i = 0;
-	fourchettes = malloc(sizeof(t_fourchette *) * (len + 1));
+	forks = malloc(sizeof(t_fork *) * (len + 1));
 	while (i < len)
 	{
-		fourchettes[i] = create_one_fourchette();
-		if (!(fourchettes[i]))
+		forks[i] = create_one_fork();
+		if (!(forks[i]))
 		{
 			while (i--)
-				free(fourchettes[i]);
-			free(fourchettes);
+				free(forks[i]);
+			free(forks);
 			return (NULL);
 		}
 		i++;
 	}
-	fourchettes[i] = NULL;
-	return (fourchettes);
+	forks[i] = NULL;
+	return (forks);
 }

@@ -3,6 +3,7 @@ SRCS		= srcs/main.c \
 		  srcs/error.c \
 		  srcs/create_fourchette.c \
 		  srcs/create_philo.c \
+		  srcs/thread.c \
 
 OBJS		= ${SRCS:.c=.o}
 

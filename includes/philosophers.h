@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 10:02:05 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/19 23:14:58 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/24 09:19:49 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 # include <sys/time.h>
 # include <stdio.h>
 
-typedef struct	s_fourchette
+typedef struct	s_fork
 {
-	pthread_mutex_t	fourchette_mutex;
-	unsigned int	fourchette;
-}	t_fourchette;
+	pthread_mutex_t	fork_mutex;
+}	t_fork;
 
 typedef struct	s_philo
 {
@@ -30,8 +29,10 @@ typedef struct	s_philo
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	int		number_of_times_must_eat;
+	pthread_mutex_t	eat_mutex;
 	unsigned long	start_eating;
-	t_fourchette	**fourchettes;
+	int		len;
+	t_fork		**forks;
 }	t_philo;
 
 /*Message*/
@@ -46,10 +47,13 @@ void	print_error_red(char *str);
 int	error(int argc, char **argv);
 
 /*Initialisation*/
-t_fourchette	**create_all_fourchettes(int len);
-t_philo		**create_all_philosophers(int argc, char **argv);
+t_fork	**create_all_forks(int len);
+t_philo	**create_all_philos(int argc, char **argv);
 
 void	free_all_philos(t_philo **philos, int len);
-void	free_all_fourchettes(t_fourchette **fourchettes, int len);
+void	free_all_forks(t_fork **forks, int len);
+
+/*Thread*/
+int	thread_philos(t_philo **philos, int len);
 
 #endif
