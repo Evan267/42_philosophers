@@ -6,40 +6,55 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 22:39:32 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/20 23:03:12 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:19:08 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_lenfourchette(t_fourchette **fourchettes)
+long int	get_ms_now(void)
 {
-	int	i;
+	struct timeval	tv;
+	long int		ms;
 
-	i = 0;
-	while (fourchettes[i])
-		i++;
-	return (i);
+	if (gettimeofday(&tv, NULL) == -1)
+		return (-1);
+	ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (ms);
 }
 
-void	def_frcht(t_fourchette *gauche, t_fourchette *droite, t_philo *philo)
+int	ft_msleep(long int msec)
 {
-	int	len;
+	long int	ms;
+	long int	end;
 
-	len = ft_lenfourchettes(philo->fourchettes);
-	if (philo->id == len && len > 1)
+	ms = get_ms_now();
+	if (ms == -1)
+		return (-1);
+	end = ms + msec;
+	while (ms < end)
 	{
-		droite = philo->fourchettes[id - 1];
-		gauche = philo->fourchettes[0];
+		usleep(100);
+		ms = get_ms_now();
+		if (ms == -1)
+			return (-1);
 	}
-	else if (len > 1)
+	return (0);
+}
+
+int	ft_usleep(long int usec)
+{
+	struct timeval	tv;
+	long int		end;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (-1);
+	end = tv.tv_usec + usec;
+	while (tv.tv_usec < end)
 	{
-		droite = philo->fourchettes[id - 1];
-		gauche = philo->fourchettes[id];
+		usleep(1);
+		if (gettimeofday(&tv, NULL) == -1)
+			return (-1);
 	}
-	else
-	{
-		droite = NULL;
-		gauche = NULL;
-	}
+	return (0);
 }

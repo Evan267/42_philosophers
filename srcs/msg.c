@@ -6,34 +6,34 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:14:51 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/26 10:06:39 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/27 11:30:52 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	msg_die(char *timestamp, int id)
+void	msg_die(int id)
 {
-	printf("%s %i died\n", timestamp, id);
+	printf("%li %i died\n", get_ms_now(), id);
 }
 
-void	msg_think(char *timestamp, int id)
+void	msg_think(int id)
 {
-	printf("%s %i is thinking\n", timestamp, id);
+	printf("%li %i is thinking\n", get_ms_now(), id);
 }
 
-void	msg_sleep(char *timestamp, int id)
+void	msg_sleep(int id)
 {
-	printf("%s %i is sleeping\n", timestamp, id);
+	printf("%li %i is sleeping\n", get_ms_now(), id);
 }
 
-void	msg_eat(char *timestamp, int id)
+void	msg_eat(int id)
 {
-	printf("%s %i is eating\n", timestamp, id);
+	printf("%li %i is eating\n", get_ms_now(), id);
 }
 
-void	msg_taken_fork(char *timestamp, int id)
+void	msg_taken_fork(int id)
 {
-	printf("%s %i has taken a fork\n", timestamp, id);
+	printf("%li %i has taken a fork\n", get_ms_now(), id);
 }
 

@@ -6,21 +6,18 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:15:19 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/26 15:42:55 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/27 15:57:10 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	isalive(t_philo *philo)
+static int	isdied(t_philo *philo)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
 	pthread_mutex_lock(&philo->eat_mutex);
-	if (tv.tv_usec > philo->time_to_eat + philo->start_eating)
-		return (pthread_mutex_unlock(&philo->eat_mutex), 0);
-	return (pthread_mutex_unlock(&philo->eat_mutex), 1);
+	if (get_ms_now() > philo->time_to_die + philo->start_eating)
+		return (pthread_mutex_unlock(&philo->eat_mutex), 1);
+	return (pthread_mutex_unlock(&philo->eat_mutex), 0);
 }
 
 static int	check_all_alive(t_philo **philos)
@@ -30,8 +27,8 @@ static int	check_all_alive(t_philo **philos)
 	i = 0;
 	while (philos[i])
 	{
-		if (!isalive(philos[i]))
-			return (i);
+		if (isdied(philos[i]))
+			return (i + 1);
 		i++;
 	}
 	return (0);
@@ -46,8 +43,10 @@ static int	all_meal_ok(t_philo **philos)
 	ret = 0;
 	while (philos[i])
 	{
+		pthread_mutex_lock(&philos[i]->number_mutex);
 		if (philos[i]->number_of_times_must_eat != 0)
 			ret = 1;
+		pthread_mutex_unlock(&philos[i]->number_mutex);
 		i++;
 	}
 	return (ret);
@@ -56,33 +55,31 @@ static int	all_meal_ok(t_philo **philos)
 void	*all_alive(void *arg)
 {
 	t_philo	**philos;
-	int		alive;
+	int		death;
 	int		meal;
-	struct timeval	tv;
 
-	philos = arg;
-	alive = 0;
+	philos = (t_philo **)arg;
+	death = 0;
 	meal = 1;
-	gettimeofday(&tv, NULL);
-	while (!alive && meal)
+	while (!death && meal)
 	{
-		alive = check_all_alive(philos);
+		death = check_all_alive(philos);
 		meal = all_meal_ok(philos);
 	}
 	if (!meal)
-		printf("%i all meal OK !\n", tv.tv_usec);
-	if (alive)
-		printf("%i %i is died\n", tv.tv_usec, alive);
-	return (0);
+		printf("%li all meal OK !\n", get_ms_now());
+	if (death)
+		printf("%li %i is died\n", get_ms_now(), death);
+	return (NULL);
 }
 
 int	check_death(t_philo **philos)
 {
 	pthread_t	id;
-	int			*ret;
+	void		*arg;
 
-	ret = NULL;
-	pthread_create(&id, NULL, all_alive, philos);
-	pthread_join(id, (void *)ret);
+	arg = (void *)philos;
+	pthread_create(&id, NULL, all_alive, arg);
+	pthread_join(id, NULL);
 	return (1);
 }

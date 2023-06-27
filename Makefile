@@ -7,6 +7,7 @@ SRCS		= srcs/main.c \
 		  srcs/action.c \
 		  srcs/get_fork.c \
 		  srcs/death.c \
+		  srcs/utils.c \
 
 OBJS		= ${SRCS:.c=.o}
 

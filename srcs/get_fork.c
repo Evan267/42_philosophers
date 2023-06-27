@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 08:55:37 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/26 11:59:20 by eberger          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:05:21 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,16 @@
 
 static t_fork	*get_fork(int id, t_fork *fork)
 {
-	struct timeval	tv;
-	char		*timestamp;
-
 	pthread_mutex_lock(&(fork->fork_mutex));
-	gettimeofday(&tv, NULL);
-	timestamp = ft_itoa(tv.tv_usec);
-	msg_taken_fork(timestamp, id);
-	free(timestamp);
+	msg_taken_fork(id);
 	return (fork);
 }
 
-t_fork	*get_fork_left(int id, t_fork **forks, int len)
+t_fork	*get_fork_left(int id, t_fork **forks)
 {
 	t_fork		*fork;
 
-	if (id == 1)
-		fork = forks[len - 1];
-	else
-		fork = forks[id - 1];
+	fork = forks[id - 1];
 	return (get_fork(id, fork));
 }
 
