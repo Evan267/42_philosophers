@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:35:35 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 13:31:11 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/03 14:57:55 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ static t_philo *create_one_philo(int argc, char **argv, t_fork **forks, unsigned
 	philo->start_eating = get_ms_now();
 	philo->len = ft_atoi(argv[1]);
 	philo->forks = forks;
+	philo->end = 0;
 	pthread_mutex_init(&philo->eat_mutex, NULL);
 	pthread_mutex_init(&philo->number_mutex, NULL);
+	pthread_mutex_init(&philo->end_mutex, NULL);
 	return (philo);
 }
 
@@ -71,6 +73,7 @@ t_philo	**create_all_philos(int argc, char **argv)
 			free(philos);
 			return (NULL);
 		}
+		philos[i]->philos = philos;
 		i++;
 	}
 	philos[i] = NULL;

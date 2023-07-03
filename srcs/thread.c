@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:52:50 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 15:36:13 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/03 15:13:55 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,21 @@ void	*thread_one_philo(void *arg)
 	t_philo		*philo;
 	t_fork		*left;
 	t_fork		*right;
-	
+
 	philo = arg;
 	if (philo->id % 2 == 0)
 		ft_usleep(100);
 	pthread_mutex_lock(&philo->number_mutex);
-	while (philo->number_of_times_must_eat != 0)
+	while (philo->number_of_times_must_eat != 0 && !philo->end)
 	{
 		pthread_mutex_unlock(&philo->number_mutex);
-		left = get_fork_left(philo->id, philo->forks);
-		right = get_fork_right(philo->id, philo->forks, philo->len);
+		left = get_fork_left(philo, philo->forks);
+		right = get_fork_right(philo, philo->forks);
 		eating(philo);
 		pthread_mutex_unlock(&left->fork_mutex);
 		pthread_mutex_unlock(&right->fork_mutex);
-		pthread_mutex_lock(&philo->number_mutex);
-		philo->number_of_times_must_eat--;
-		if (philo->number_of_times_must_eat == 0)
-			break ;
-		pthread_mutex_unlock(&philo->number_mutex);
-		sleeping(philo->id, philo->time_to_sleep);
-		thinking(philo->id);
+		sleeping(philo);
+		thinking(philo);
 		pthread_mutex_lock(&philo->number_mutex);
 	}
 	pthread_mutex_unlock(&philo->number_mutex);

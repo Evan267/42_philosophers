@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 10:02:05 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 13:32:38 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/03 14:58:38 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct	s_philo
 	long int		start_eating;
 	int				len;
 	t_fork			**forks;
+	pthread_mutex_t	end_mutex;
+	int				end;
+	struct s_philo	**philos;
 }	t_philo;
 
 /*Message*/
@@ -44,13 +47,13 @@ void		msg_eat(int id);
 void		msg_taken_fork(int id);
 
 /*Action*/
-void		sleeping(int id, unsigned int time_to_sleep);
-void		thinking(int id);
+void		sleeping(t_philo *philo);
+void		thinking(t_philo *philo);
 void		eating(t_philo *philo);
 
 /*Get fork*/
-t_fork		*get_fork_left(int id, t_fork **forks);
-t_fork		*get_fork_right(int id, t_fork **forks, int len);
+t_fork		*get_fork_left(t_philo *philo, t_fork **forks);
+t_fork		*get_fork_right(t_philo *philo, t_fork **forks);
 
 /*Error*/
 void		print_error_red(char *str);
@@ -67,6 +70,7 @@ void		free_all_forks(t_fork **forks, int len);
 int			thread_philos(t_philo **philos, int len);
 
 /*Death*/
+int			all_meal_ok(t_philo **philos);
 int			check_death(t_philo **philos);
 
 /*Utils*/

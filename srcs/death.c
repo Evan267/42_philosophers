@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:15:19 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 15:57:10 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/03 15:54:57 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	check_all_alive(t_philo **philos)
 	return (0);
 }
 
-static int	all_meal_ok(t_philo **philos)
+int	all_meal_ok(t_philo **philos)
 {
 	int	i;
 	int	ret;
@@ -52,6 +52,25 @@ static int	all_meal_ok(t_philo **philos)
 	return (ret);
 }
 
+void	end_philos(t_philo **philos)
+{
+	int	i;
+
+	i = 0;
+	while (philos[i])
+	{
+		pthread_mutex_lock(&philos[i]->end_mutex);
+		i++;
+	}
+	i = 0;
+	while (philos[i])
+	{
+		philos[i]->end = 1;
+		pthread_mutex_unlock(&philos[i]->end_mutex);
+		i++;
+	}
+}
+
 void	*all_alive(void *arg)
 {
 	t_philo	**philos;
@@ -65,6 +84,8 @@ void	*all_alive(void *arg)
 	{
 		death = check_all_alive(philos);
 		meal = all_meal_ok(philos);
+		if (!meal || death)
+			end_philos(philos);
 	}
 	if (!meal)
 		printf("%li all meal OK !\n", get_ms_now());
