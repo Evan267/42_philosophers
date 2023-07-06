@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 08:55:37 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/03 15:49:43 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:42:36 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,17 @@ t_fork	*get_fork_right(t_philo *philo, t_fork **forks)
 	else
 		fork = forks[philo->id];
 	return (get_fork(philo, fork));
+}
+
+void	drop_forks(t_fork *left, t_fork *right, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->end_mutex);
+	if (!philo->end && all_meal_ok(philo->philos))
+	{
+		pthread_mutex_unlock(&philo->end_mutex);
+		pthread_mutex_unlock(&(left->fork_mutex));
+		pthread_mutex_unlock(&(right->fork_mutex));
+		return ;
+	}
+	pthread_mutex_unlock(&philo->end_mutex);
 }

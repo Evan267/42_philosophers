@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:52:50 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/03 15:13:55 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:27:39 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	*thread_one_philo(void *arg)
 		left = get_fork_left(philo, philo->forks);
 		right = get_fork_right(philo, philo->forks);
 		eating(philo);
-		pthread_mutex_unlock(&left->fork_mutex);
-		pthread_mutex_unlock(&right->fork_mutex);
+		drop_forks(left, right, philo);
 		sleeping(philo);
 		thinking(philo);
 		pthread_mutex_lock(&philo->number_mutex);

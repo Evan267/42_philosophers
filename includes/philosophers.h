@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 10:02:05 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/03 14:58:38 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:27:14 by eberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		eating(t_philo *philo);
 /*Get fork*/
 t_fork		*get_fork_left(t_philo *philo, t_fork **forks);
 t_fork		*get_fork_right(t_philo *philo, t_fork **forks);
+void		drop_forks(t_fork *left, t_fork *right, t_philo *philo);
 
 /*Error*/
 void		print_error_red(char *str);

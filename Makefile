@@ -19,7 +19,7 @@ NAME		= philo
 
 CC			= gcc
 
-CFLAGS		= -g -Wall -Wextra -Werror
+CFLAGS		= -g -Wall -Wextra -Werror -fsanitize=thread
 
 .c.o:		
 			${CC} ${CFLAGS} -I ${HEAD} -Ilibft -c $< -o ${<:.c=.o} 
