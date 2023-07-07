@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: eberger/Desktop <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 11:47:50 by eberger           #+#    #+#             */
-/*   Updated: 2022/10/31 12:24:03 by eberger          ###   ########.fr       */
+/*   Created: 2023/07/07 15:20:49 by eberger/Deskt     #+#    #+#             */
+/*   Updated: 2023/07/07 15:21:33 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int str)
-{
-	int	value;
+#include "philosophers.h"
 
-	value = 1;
-	if (str < 65 || (str > 90 && str < 97) || str > 122)
-			value = 0;
-	return (value);
+void	print_error_red(char *str)
+{
+	ft_putstr_fd("\033[0;31m", 2);
+	ft_putstr_fd("Erreur : ", 2);
+	ft_putendl_fd(str, 2);
+	ft_putstr_fd("\033[0m", 2);
 }

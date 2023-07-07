@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:14:51 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 11:30:52 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 15:23:31 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ void	msg_taken_fork(int id)
 {
 	printf("%li %i has taken a fork\n", get_ms_now(), id);
 }
-

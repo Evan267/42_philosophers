@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:52:50 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/06 16:27:39 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 15:23:55 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	lance_thread(t_philo *philo, pthread_t *id)
 	return (0);
 }
 
-void	stop_philos(pthread_t *id_threads)
+void	detach_philos(pthread_t *id_threads)
 {
 	int	i;
 
@@ -58,6 +58,7 @@ void	stop_philos(pthread_t *id_threads)
 			return ;
 		i++;
 	}
+	return ;
 }
 
 void	stop_mutex(t_philo **philos, t_fork **forks)
@@ -81,9 +82,9 @@ void	stop_mutex(t_philo **philos, t_fork **forks)
 
 int	thread_philos(t_philo **philos, int len)
 {
-	int		i;
+	int			i;
 	pthread_t	*id_threads;
-	int	end;
+	int			end;
 
 	i = 0;
 	end = 0;
@@ -95,8 +96,9 @@ int	thread_philos(t_philo **philos, int len)
 		i++;
 	}
 	id_threads[i] = 0;
+	detach_philos(id_threads);
 	check_death(philos);
-	stop_philos(id_threads);
 	stop_mutex(philos, philos[0]->forks);
+	free(id_threads);
 	return (0);
 }

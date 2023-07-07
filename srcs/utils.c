@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 22:39:32 by eberger           #+#    #+#             */
-/*   Updated: 2023/06/27 13:19:08 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 14:59:08 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,32 @@ int	ft_usleep(long int usec)
 			return (-1);
 	}
 	return (0);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	value;
+
+	value = 0;
+	while (str[value])
+		value++;
+	return (value);
+}
+
+int	all_meal_ok(t_philo **philos)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (philos[i])
+	{
+		pthread_mutex_lock(&philos[i]->number_mutex);
+		if (philos[i]->number_of_times_must_eat != 0)
+			ret = 1;
+		pthread_mutex_unlock(&philos[i]->number_mutex);
+		i++;
+	}
+	return (ret);
 }

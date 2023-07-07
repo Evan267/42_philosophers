@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:15:19 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/06 16:44:19 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 14:59:00 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,6 @@ static int	check_all_alive(t_philo **philos)
 		i++;
 	}
 	return (0);
-}
-
-int	all_meal_ok(t_philo **philos)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 0;
-	while (philos[i])
-	{
-		pthread_mutex_lock(&philos[i]->number_mutex);
-		if (philos[i]->number_of_times_must_eat != 0)
-			ret = 1;
-		pthread_mutex_unlock(&philos[i]->number_mutex);
-		i++;
-	}
-	return (ret);
 }
 
 void	end_philos(t_philo **philos)

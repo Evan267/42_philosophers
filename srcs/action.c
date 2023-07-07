@@ -6,7 +6,7 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 08:53:12 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/06 16:46:39 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 15:14:24 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->end_mutex);
 	if (!philo->end && all_meal_ok(philo->philos))
-	{
 		msg_think(philo->id);
-	}
 	pthread_mutex_unlock(&philo->end_mutex);
 }
 

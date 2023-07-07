@@ -6,23 +6,24 @@
 /*   By: eberger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 10:02:05 by eberger           #+#    #+#             */
-/*   Updated: 2023/07/06 16:27:14 by eberger          ###   ########.fr       */
+/*   Updated: 2023/07/07 14:59:25 by eberger/Deskt    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-# include "libft.h"
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 
-typedef struct	s_fork
+typedef struct s_fork
 {
 	pthread_mutex_t	fork_mutex;
 }	t_fork;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int				id;
 	int				time_to_die;
@@ -62,21 +63,28 @@ int			error(int argc, char **argv);
 
 /*Initialisation*/
 t_fork		**create_all_forks(int len);
-t_philo		**create_all_philos(int argc, char **argv);
+t_philo		**create_all_philos(int argc, char **argv, t_fork **forks);
 
-void		free_all_philos(t_philo **philos, int len);
-void		free_all_forks(t_fork **forks, int len);
+void		free_all_philos(t_philo **philos);
+void		free_all_forks(t_fork **forks);
 
 /*Thread*/
 int			thread_philos(t_philo **philos, int len);
 
 /*Death*/
-int			all_meal_ok(t_philo **philos);
 int			check_death(t_philo **philos);
 
 /*Utils*/
 int			ft_msleep(long int msec);
 int			ft_usleep(long int usec);
 long int	get_ms_now(void);
+size_t		ft_strlen(const char *str);
+int			all_meal_ok(t_philo **philos);
+
+/*libft function*/
+int			ft_atoi(const char *str);
+int			ft_isdigit(int chr);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putendl_fd(char *s, int fd);
 
 #endif
